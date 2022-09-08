@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intel2512_finalproject.Login">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../img/320px-RMIT_University_Logo.svg.png" />
+               </image></ImageView>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="400.0" prefWidth="432.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutY="137.0" prefHeight="42.0" prefWidth="137.0" text="Username">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label layoutY="206.0" prefHeight="42.0" prefWidth="137.0" text="Password">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="username" layoutX="138.0" layoutY="145.0" promptText="Username" />
+            <PasswordField fx:id="password" layoutX="138.0" layoutY="214.0" promptText="Password" />
+            <Button fx:id="button" layoutX="143.0" layoutY="294.0" mnemonicParsing="false" onAction="#userLogin" text="Login" />
+            <Label fx:id="wrongLogin" layoutX="152.0" layoutY="88.0" textFill="RED" />
+         </children></AnchorPane>
+   </right>
+</BorderPane>
