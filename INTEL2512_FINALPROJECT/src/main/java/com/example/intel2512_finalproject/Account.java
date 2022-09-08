@@ -12,7 +12,7 @@ public class Account {
     private String Password;
 
     private String customerType;
-    int numReturned;
+    private int numReturned;
 
     public Account(String id, String name, String address, String phoneNumber, ArrayList<String> rentalList, String username, String password) {
         this.id = id;
@@ -26,16 +26,15 @@ public class Account {
 
 
 
-    public void borrowMovie(Movie a){
+    public void borrowMovie(Item a){
         this.rentalList.add(a.getTitle());
     }
 
-    public void returnMovie(Movie a){
+    public void returnMovie(Item a){
         if (!this.rentalList.remove(a.getTitle())) {
             System.out.println("movie " + a.getTitle() + "not borrowed by user " + getUsername());
         }
-
-
+        this.numReturned++;
 
     }
 
@@ -101,5 +100,13 @@ public class Account {
 
     public void setCustomerType(String customerType) {
         this.customerType = customerType;
+    }
+
+    public int getNumReturned() {
+        return this.numReturned;
+    }
+
+    public void setNumReturned(int numReturned) {
+        this.numReturned = numReturned;
     }
 }

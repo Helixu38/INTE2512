@@ -29,7 +29,10 @@ public class Main extends Application {
 
     }
 
+
     public static void main(String[] args) {
-        launch();
+        RentSystem rentSystem = new RentSystem();
+        rentSystem.displayItem();
+//        launch();
     }
 }

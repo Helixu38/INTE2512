@@ -51,8 +51,6 @@ public class RentingInterface {
     @FXML
     private Button btnRent;
 
-    public void onButtonClick(ActionEvent event){
-        movieList.set
-    }
+
 
 }
