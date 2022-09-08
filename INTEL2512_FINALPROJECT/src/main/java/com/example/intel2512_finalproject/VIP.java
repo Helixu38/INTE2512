@@ -17,7 +17,7 @@ public class VIP extends Account{
         // rent 1 item for free if > 100 reward points
         if (this.getRewardPoints() >= 100) {
             this.rewardPoints -= 100;
-            this.setRentalFee(0);
+            this.setRental(0.0);
         }
         super.borrowMovie(a);
 
