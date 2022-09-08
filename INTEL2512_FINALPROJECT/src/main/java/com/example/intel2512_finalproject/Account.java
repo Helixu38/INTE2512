@@ -12,6 +12,7 @@ public class Account {
     private String Password;
 
     private String customerType;
+
     private int numReturned;
 
     public Account(String id, String name, String address, String phoneNumber, ArrayList<String> rentalList, String username, String password) {
@@ -26,15 +27,18 @@ public class Account {
 
 
 
-    public void borrowMovie(Item a){
+    public boolean borrowMovie(Item a){
         this.rentalList.add(a.getTitle());
+        return true;
     }
 
-    public void returnMovie(Item a){
+    public boolean returnMovie(Item a){
         if (!this.rentalList.remove(a.getTitle())) {
             System.out.println("movie " + a.getTitle() + "not borrowed by user " + getUsername());
+            return false;
         }
         this.numReturned++;
+        return true;
 
     }
 
@@ -109,4 +113,20 @@ public class Account {
     public void setNumReturned(int numReturned) {
         this.numReturned = numReturned;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " id='" + getId() + "'" +
+            ", name='" + getName() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", phoneNumber='" + getPhoneNumber() + "'" +
+            ", rentalList='" + getRentalList() + "'" +
+            ", Username='" + getUsername() + "'" +
+            ", Password='" + getPassword() + "'" +
+            ", customerType='" + getCustomerType() + "'" +
+            ", numReturned='" + getNumReturned() + "'" +
+            "}";
+    }
+
 }

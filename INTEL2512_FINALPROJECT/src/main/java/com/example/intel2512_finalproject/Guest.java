@@ -8,14 +8,16 @@ public class Guest extends Account{
         super.setCustomerType("Guest");
     }
 
-    public void borrowMovie(Item a) {
-        if (getRentalList().size() >= 2) {
-            return;
+    public boolean borrowMovie(Item a) {
+        if (getRentalList().size() >= 2 || a.getLoanType()) {
+            return False;
         }
         super.borrowMovie(a);
+        return True
     }
 
-    public void returnMovie(Item a) {
+    public boolean returnMovie(Item a) {
         super.returnMovie(a);
+        return True
     }
 }

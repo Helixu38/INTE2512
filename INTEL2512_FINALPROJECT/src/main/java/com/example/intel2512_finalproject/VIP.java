@@ -13,12 +13,22 @@ public class VIP extends Account{
         this.rewardPoints = 0;
     }
 
-    public void borrowMovie(Item a) {
+    public boolean borrowMovie(Item a) {
+        // rent 1 item for free if > 100 reward points
+        if (this.getRewardPoints() >= 100) {
+            this.rewardPoints -= 100;
+            this.setRentalFee(0);
+        }
         super.borrowMovie(a);
+
+        // get 10 points for each rental
+        this.rewardPoints += 10;
+        return true;
     }
 
-    public void returnMovie(Item a) {
+    public boolean returnMovie(Item a) {
         super.returnMovie(a);
+        return true;
     }
 
     public int getRewardPoints() {

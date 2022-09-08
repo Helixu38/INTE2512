@@ -36,6 +36,7 @@ public class RentSystem {
 //            if (requestedItem.id == item.id) {
 //                if (item.getNumberCopies > 0) {
 //                    item.borrowed();
+//                    user.borrowMovie(item);
 //                }
 //                break;
 //            }
@@ -44,7 +45,15 @@ public class RentSystem {
 //
 //        // Write new rented entry into account database
 //    }
-    
+
+    void returnItem(Item returnedObject, Account user) {
+        // find that user in the account database, read info out into a object
+
+        // return item first
+
+        // after item is returned and user's item returned count ++, check if eligible for promo
+        checkPromote(user);
+    }
 
 //    Item lineToItem(String line) {
 //        // BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
@@ -55,9 +64,19 @@ public class RentSystem {
 //        // reader.close();
 //    }
 
-    void promote(Account user) {
+    void checkPromote(Account user) {
         // Check returned count after user makes a return, read the account database and find the old entry, erase it and replace with
         // new entry of the promoted user, no fields need to change aside from the customerType
+
+        // promo guest to regular
+        if (user.getCustomerType() == "Guest" && user.getNumReturned() > 3) {
+
+        }
+
+        // promo guest to regular
+        else if (user.getCustomerType() == "Regular" && user.getNumReturned() > 5) {
+
+        }
     }
 
     
@@ -74,6 +93,20 @@ public class RentSystem {
             // ArrayList<String>sorteditx = itx.stream()sorted(Comparator.naturalOrder());
             System.out.println(itx.toString());
         }
+    }
+    void displayCustomer(){
+        Collections.sort(accountList, new Comparator<Account>() {
+            public int compare(Account a, Account b)
+    {
+ 
+        return a.getId().compareTo(b.getId());
+    }
+        });
+        for (Account itx: accountList) {
+            // ArrayList<String>sorteditx = itx.stream()sorted(Comparator.naturalOrder());
+            System.out.println(itx.toString());
+        }
+        
     }  
 
     void displayOutofstock(){

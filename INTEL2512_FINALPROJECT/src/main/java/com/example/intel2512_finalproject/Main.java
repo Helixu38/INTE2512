@@ -34,5 +34,6 @@ public class Main extends Application {
         RentSystem rentSystem = new RentSystem();
         rentSystem.displayItem();
 //        launch();
+        rentSystem.displayCustomer();
     }
 }

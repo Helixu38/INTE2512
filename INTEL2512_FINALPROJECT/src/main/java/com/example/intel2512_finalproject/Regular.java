@@ -9,11 +9,13 @@ public class Regular extends Account{
 
     }
 
-    public void borrowMovie(Item a) {
+    public boolean borrowMovie(Item a) {
         super.borrowMovie(a);
+        return true;
     }
 
-    public void returnMovie(Item a) {
+    public boolean returnMovie(Item a) {
         super.returnMovie(a);
+        return true;
     }
 }
