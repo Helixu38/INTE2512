@@ -9,15 +9,15 @@ public class Guest extends Account{
     }
 
     public boolean borrowMovie(Item a) {
-        if (getRentalList().size() >= 2 || a.getLoanType()) {
-            return False;
+        if (getRentalList().size() >= 2 || a.getLoanType().equals("2-day")) {
+            return false;
         }
         super.borrowMovie(a);
-        return True
+        return true;
     }
 
     public boolean returnMovie(Item a) {
         super.returnMovie(a);
-        return True
+        return true;
     }
 }
