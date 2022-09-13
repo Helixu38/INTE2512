@@ -10,10 +10,11 @@ public class Regular extends Account{
     }
 
     public boolean borrowMovie(Item a) {
-        super.borrowMovie(a);
+        super.borrowItem(a);
         return true;
     }
 
+    @Override
     public boolean returnMovie(Item a) {
         super.returnMovie(a);
         return true;

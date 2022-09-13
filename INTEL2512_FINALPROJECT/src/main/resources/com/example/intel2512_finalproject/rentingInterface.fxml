@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intel2512_finalproject.RentingInterface">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.intel2512_finalproject.RentingController">
    <children>
       <VBox layoutX="22.0" layoutY="45.0" prefHeight="339.0" prefWidth="104.0" spacing="24.0">
          <children>
@@ -38,7 +38,7 @@
         </columns>
       </TableView>
       <Button fx:id="btnInsert" layoutX="450.0" layoutY="45.0" mnemonicParsing="false" text="Insert" />
-      <Button fx:id="btnUpdate" layoutX="450.0" layoutY="102.0" mnemonicParsing="false" text="Update" />
+      <Button fx:id="btnUpdate" layoutX="717.0" layoutY="14.0" mnemonicParsing="false" text="Logout" />
       <Button fx:id="btnRent" layoutX="450.0" layoutY="148.0" mnemonicParsing="false" text="Rent" />
    </children>
 </AnchorPane>

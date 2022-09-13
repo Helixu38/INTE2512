@@ -12,10 +12,11 @@ public class Guest extends Account{
         if (getRentalList().size() >= 2 || a.getLoanType().equals("2-day")) {
             return false;
         }
-        super.borrowMovie(a);
+        super.borrowItem(a);
         return true;
     }
 
+    @Override
     public boolean returnMovie(Item a) {
         super.returnMovie(a);
         return true;

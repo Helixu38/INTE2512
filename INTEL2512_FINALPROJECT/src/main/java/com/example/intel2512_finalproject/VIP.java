@@ -19,13 +19,14 @@ public class VIP extends Account{
             this.rewardPoints -= 100;
             a.setRentalFee(0.0);
         }
-        super.borrowMovie(a);
+        super.borrowItem(a);
 
         // get 10 points for each rental
         this.rewardPoints += 10;
         return true;
     }
 
+    @Override
     public boolean returnMovie(Item a) {
         super.returnMovie(a);
         return true;

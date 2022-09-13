@@ -32,8 +32,8 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         RentSystem rentSystem = new RentSystem();
-        rentSystem.displayItem();
-//        launch();
-        rentSystem.displayCustomer();
+//        rentSystem.displayItem();
+        launch();
+//        rentSystem.displayCustomer();
     }
 }

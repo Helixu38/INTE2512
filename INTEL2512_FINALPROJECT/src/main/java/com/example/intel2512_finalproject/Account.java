@@ -27,9 +27,8 @@ public class Account {
 
 
 
-    public boolean borrowMovie(Item a){
+    public void borrowItem(Item a){
         this.rentalList.add(a.getTitle());
-        return true;
     }
 
     public boolean returnMovie(Item a){

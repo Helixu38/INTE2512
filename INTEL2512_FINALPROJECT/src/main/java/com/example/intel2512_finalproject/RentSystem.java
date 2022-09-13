@@ -9,7 +9,10 @@ public class RentSystem {
 
     private ArrayList<Account> accountList;
     private ArrayList<Item> itemList;
-    private String filename;
+    // private String filename;
+    private FileAccRW fileAcc;
+    private FileItemRW fileItem;
+    private int currentID;
 
     public RentSystem() {
         
@@ -17,16 +20,39 @@ public class RentSystem {
         itemList = new ArrayList<>();
         itemList.add(new Item("I001-2001", "Medal of Honour", "Game", "1-week",3,3.99,"\t", false));
         itemList.add(new Item("I002-1988", "White Castle", "Record", "1-week",3,0.99,"Comedy",false));
-        filename = "database.txt";
-
+        // filename = "database.txt";
+        fileAcc = new FileAccRW("customer.txt");
+        fileItem = new FileItemRW("item.txt");
         // "I003-1992,Alpha Dog,Record,1-week,3,1.99,Action",
         // "I004-1999,Rat Race,DVD,1-week,3,1.99,Horror",
         // "I005-2015,Halo,Game,2-day,2,4.99",
         // "I006-2013,Halloween,DVD,2-day,1,0.99,Horror"));
-        
+
+        this.currentID = 0;
 
     }
 
+    void addUser(String name, String address, String phoneNumber, String username, String password) {
+        
+        // fileAcc.readAccList();
+        // accountList = fileAcc.getAccountList();
+        // for (Account acc: accountList) {
+        //     if (acc.getUsername().equals(username)) {
+        //         System.out.println("User with name " + username + " already exists");
+        //         return;
+        //     }
+        // }
+
+        // Assuming all users start off as a guest account
+        String newID = "C" +  String.format("%03d" , currentID);
+        currentID++;
+        Account newUser = new Guest(newID, name, address, phoneNumber, new ArrayList<>(), username, password);
+        fileAcc.addNewAcc(newUser);
+    }
+
+    void loginUser(String username, String password) {
+//        this.fileAcc.searchUser
+    }
 //    void rent(Item requestedItem, Account user) {
 //        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
 //        String line;
@@ -119,7 +145,7 @@ public class RentSystem {
         }
     }
 
+    void search(String name) {
 
-    
-
+    }
 }

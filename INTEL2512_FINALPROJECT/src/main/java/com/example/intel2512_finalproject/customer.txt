@@ -1,0 +1,9 @@
+
+{ id='C000', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C000', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C000', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C000', name='123', address='123', phoneNumber='090', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C000', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C000', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C001', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
+{ id='C002', name='123', address='123', phoneNumber='123', rentalList='[]', Username='123', Password='123', customerType='Guest', numReturned='0'}
