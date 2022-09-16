@@ -2,7 +2,7 @@ package com.example.intel2512_finalproject;
 
 import java.util.ArrayList;
 
-public class Account {
+public class Account implements java.io.Serializable{
     private String id;
     private String name;
     private String address;
@@ -115,8 +115,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "{" +
-            " id='" + getId() + "'" +
+        return "id='" + getId() + "'" +
             ", name='" + getName() + "'" +
             ", address='" + getAddress() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
@@ -124,8 +123,10 @@ public class Account {
             ", Username='" + getUsername() + "'" +
             ", Password='" + getPassword() + "'" +
             ", customerType='" + getCustomerType() + "'" +
-            ", numReturned='" + getNumReturned() + "'" +
-            "}";
+            ", numReturned='" + getNumReturned() + "'";
     }
 
+    public boolean borrowMovie(Item itx) {
+        return false;
+    }
 }

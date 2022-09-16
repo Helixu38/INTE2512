@@ -14,44 +14,63 @@ public class FileAccRW extends FileReadWrite {
 
         // Read the content from file
         try {
-            // Creating an object input stream
-            ObjectInputStream objStream = new ObjectInputStream(new FileInputStream(filename));
 
+            InputStream newInputStream = new FileInputStream(filename);
+
+            ObjectInputStream objStream = new ObjectInputStream(newInputStream);
+
+            ArrayList<Account> currAccArray = new ArrayList<>();
+
+            boolean cond = true;
             // Using the readObject() method
-            System.out.println((ArrayList<Account>) objStream.readObject());
+            while (cond) {
+                try {
+                    Account localAcc = (Account) objStream.readObject();
+                    if (localAcc == null) {
+                        cond = false;
+                    } else {
+                        currAccArray.add(localAcc);
+                        System.out.println("account retrieved is " + localAcc.getUsername());
+                    }
+                } catch (EOFException e) {
+                    break;
+                }
+            }
+
+            this.setAccountList(currAccArray);
+            for (Account c : accountList) {
+                System.out.println(c.toString());
+                System.out.println();
+            }
+//            this.setAccountList((ArrayList<Account>) objStream.readObject());
             objStream.close();
-        } catch (FileNotFoundException e) {
-            // Exception handling
         } catch (IOException e) {
             // Exception handling
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+
+        if (this.getAccountList() == null) {
+            this.setAccountList(new ArrayList<>());
+        }
     }
 
-    void addNewAcc(Account acc) {
-        PrintWriter pw = null;
+    void addNewAcc(ArrayList<Account> accList) {
+
+        // update the local account database of the FileAccRW object
+        this.setAccountList(accList);
+
         try {
-            pw = new PrintWriter(new BufferedWriter(new FileWriter(filename, true)));
+            OutputStream newOutputStream = new FileOutputStream(filename);
+            ObjectOutputStream objOutStream = new ObjectOutputStream(newOutputStream);
+            for (Account acc : accList) {
+                objOutStream.writeObject(acc);
+            }
+            objOutStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        pw.println(acc);
-        pw.close();
-    }
-
-    void updateAcc(Account acc) {
-        String directory = System.getProperty("user.home");
-        String absolutePath = directory + File.separator + this.filename;
-
-        // Write the content in file
-        try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(absolutePath))) {
-            String fileContent = "This is a sample text.";
-            bufferedWriter.write(fileContent);
-        } catch (IOException e) {
-            // Exception handling
-        }
     }
 
     ArrayList<Account> getAccountList() {

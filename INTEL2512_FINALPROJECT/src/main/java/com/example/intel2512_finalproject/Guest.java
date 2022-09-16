@@ -8,6 +8,7 @@ public class Guest extends Account{
         super.setCustomerType("Guest");
     }
 
+    @Override
     public boolean borrowMovie(Item a) {
         if (getRentalList().size() >= 2 || a.getLoanType().equals("2-day")) {
             return false;

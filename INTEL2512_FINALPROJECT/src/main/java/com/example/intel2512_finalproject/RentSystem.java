@@ -1,8 +1,5 @@
 package com.example.intel2512_finalproject;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,9 +8,8 @@ public class RentSystem {
 
     private ArrayList<Account> accountList;
     private ArrayList<Item> itemList;
-    // private String filename;
-    private FileAccRW fileAcc;
-    private FileItemRW fileItem;
+    private final FileAccRW fileAcc;
+    private final FileItemRW fileItem;
     private int currentID;
     private int currentItemID;
     private Account accountFound;
@@ -32,9 +28,18 @@ public class RentSystem {
         // "I006-2013,Halloween,DVD,2-day,1,0.99,Horror"));
 
         this.currentID = 0;
+        this.currentItemID = 0;
 
     }
 
+    /***
+     * Add a new user to the system
+     * @param name
+     * @param address
+     * @param phoneNumber
+     * @param username
+     * @param password
+     */
     void addUser(String name, String address, String phoneNumber, String username, String password) {
 
          // get the account list from the text file
@@ -180,9 +185,28 @@ public class RentSystem {
     void returnItem(Item returnedObject) {
 
         // return item first
+        for (Item itx : itemList) {
+            if (itx.getTitle().equals(returnedObject.getTitle())) {
 
+                // update local item db
+                itx.returned();
+                // asserting that we are logged in and the current acc exists
+                assert accountFound != null;
+
+                // updating local account db
+                accountFound.returnMovie(itx);
+                break;
+
+            }
+        }
         // after item is returned and user's item returned count ++, check if eligible for promo
-        checkPromote(user);
+        checkPromote(accountFound);
+
+        // add item info to text file
+        fileItem.addItem(this.itemList);
+
+        // update account database as well
+        fileAcc.addNewAcc(this.accountList);
     }
 
     /***
@@ -190,30 +214,40 @@ public class RentSystem {
      * @param user
      */
     void checkPromote(Account user) {
-        // Check returned count after user makes a return, read the account database and find the old entry, erase it and replace with
-        // new entry of the promoted user, no fields need to change aside from the customerType
 
         // promo guest to regular
-        if (user.getCustomerType() == "Guest" && user.getNumReturned() > 3) {
-
+        if (user.getCustomerType().equals("Guest") && user.getNumReturned() > 3) {
+            Regular newRegularAcc = new Regular(
+                    user.getId(),
+                    user.getName(),
+                    user.getAddress(),
+                    user.getPhoneNumber(),
+                    user.getRentalList(),
+                    user.getUsername(),
+                    user.getPassword());
+            accountList.remove(user);
+            accountList.add(newRegularAcc);
         }
 
-        // promo guest to regular
-        else if (user.getCustomerType() == "Regular" && user.getNumReturned() > 5) {
-
+        // promo guest to VIP
+        else if (user.getCustomerType().equals("Regular") && user.getNumReturned() > 5) {
+            VIP newVIPAcc = new VIP(
+                    user.getId(),
+                    user.getName(),
+                    user.getAddress(),
+                    user.getPhoneNumber(),
+                    user.getRentalList(),
+                    user.getUsername(),
+                    user.getPassword());
+            accountList.remove(user);
+            accountList.add(newVIPAcc);
         }
     }
 
     
 
     void displayItem(){
-        Collections.sort(itemList, new Comparator<Item>() {
-            public int compare(Item a, Item b)
-    {
- 
-        return a.getId().compareTo(b.getId());
-    }
-        });
+        itemList.sort(Comparator.comparing(Item::getId));
         for (Item itx: itemList) {
             // ArrayList<String>sorteditx = itx.stream()sorted(Comparator.naturalOrder());
             System.out.println(itx.toString());
@@ -221,26 +255,18 @@ public class RentSystem {
     }
 
     void displayCustomer(){
-        Collections.sort(accountList, new Comparator<Account>() {
-            public int compare(Account a, Account b)
-    {
- 
-        return a.getId().compareTo(b.getId());
-    }
-        });
+        accountList.sort(Comparator.comparing(Account::getId));
         for (Account itx: accountList) {
             // ArrayList<String>sorteditx = itx.stream()sorted(Comparator.naturalOrder());
             System.out.println(itx.toString());
         }
-        
     }  
 
     void displayOutofstock(){
         for (Item itx: itemList) {
-            if(itx.getNumberCopies() == 0){
+            if(itx.getNumberCopies() == 0) {
                 System.out.println(itx);
             }
-            
 
         }
     }

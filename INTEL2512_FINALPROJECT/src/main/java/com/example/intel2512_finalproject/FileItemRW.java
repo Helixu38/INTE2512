@@ -1,7 +1,6 @@
 package com.example.intel2512_finalproject;
 
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FileItemRW extends FileReadWrite {

@@ -1,7 +1,5 @@
 package com.example.intel2512_finalproject;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -36,12 +34,7 @@ public class SignupController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        button_login.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                SystemUtils.changeScene(event, "Login.fxml" , "Login" , null , null ,null , null ,null );
-            }
-        });
+        button_login.setOnAction(event -> SystemUtils.changeScene(event, "Login.fxml" , "Login" , null , null ,null , null ,null ));
 
         button_signup.setOnAction(event -> {
             if(!tf_name.getText().trim().isEmpty() && !tf_address.getText().trim().isEmpty() && !tf_phoneNumber.getText().trim().isEmpty() && !tf_username.getText().trim().isEmpty() && !tf_password.getText().trim().isEmpty()){

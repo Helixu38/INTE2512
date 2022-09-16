@@ -13,6 +13,7 @@ public class VIP extends Account{
         this.rewardPoints = 0;
     }
 
+    @Override
     public boolean borrowMovie(Item a) {
         // rent 1 item for free if > 100 reward points
         if (this.getRewardPoints() >= 100) {

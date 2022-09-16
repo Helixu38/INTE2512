@@ -75,4 +75,16 @@ public class SystemUtils {
 
         rentSystem.addItem(title, loanType, rentalType, numberCopies, rentalFee, genre, rentalStatus);
     }
+
+    public static void rentItem(ActionEvent event, Item itemRented) {
+
+        // we only rent item that shows up in our search result, displayed in the table, so it's guaranteed it exists
+        rentSystem.rent(itemRented);
+    }
+
+    public static void returnItem(ActionEvent event, Item itemReturned) {
+
+        // we only return item that shows up in the table
+        rentSystem.returnItem(itemReturned);
+    }
 }
