@@ -36,6 +36,7 @@ public class AfterLoginController implements Initializable {
         button_continue.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                SystemUtils.changeScene(event, "rentingInterface.fxml" , "Renting interface !" , null , null , null , null ,null );
 
             }
         });
@@ -43,7 +44,7 @@ public class AfterLoginController implements Initializable {
     }
 
     public void setUserInformation(String name, String address , String phoneNumber , String accountType , String username){
-        label_welcome.setText("Welcome" + username + " ! " );
+        label_welcome.setText("Welcome " + username + " ! " );
         label_name.setText("Name : " + name);
         label_address.setText("Address : " + address);
         label_phoneNumber.setText("Phone Number : " + phoneNumber);

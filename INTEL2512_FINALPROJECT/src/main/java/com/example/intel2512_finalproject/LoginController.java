@@ -33,34 +33,38 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField pf_password;
 
-    public void userLogin(ActionEvent event) throws IOException{
-        checkLogin();
-    }
+//    public void userLogin(ActionEvent event) throws IOException{
+//
+//            if(tf_username.getText().toString().equals("minhdinh") && pf_password.getText().toString().equals("123456")) {
+//                wrongLogin.setText("Success");
+//
+//
+//            }
+//
+//            else if(tf_username.getText().isEmpty() && pf_password.getText().isEmpty()){
+//                wrongLogin.setText("Please enter your username and password");
+//            }
+//
+//            else{
+//                wrongLogin.setText("Wrong username or password");
+//            }
+//
+//
+//    }
 
-    private void checkLogin() throws  IOException{
-        Main m = new Main();
-        if(tf_username.getText().toString().equals("minhdinh") && pf_password.getText().toString().equals("123456")) {
-            wrongLogin.setText("Success");
 
-            m.changeScene("afterLogin.fxml");
-        }
-
-        else if(tf_username.getText().isEmpty() && pf_password.getText().isEmpty()){
-            wrongLogin.setText("Please enter your username and password");
-        }
-
-        else{
-            wrongLogin.setText("Wrong username or password");
-        }
-
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         button_signin.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                SystemUtils.loginUser(event , tf_username.getText() , pf_password.getText());
+                Account signedInAcc = SystemUtils.loginUser(event , tf_username.getText() , pf_password.getText());
+                if (signedInAcc == null) {
+                    wrongLogin.setText("Wrong username or password");
+                } else {
+                    SystemUtils.changeScene(event, "afterLogin.fxml", "Welcome " , signedInAcc.getUsername() , signedInAcc.getName() , signedInAcc.getAddress() , signedInAcc.getPhoneNumber() , "Guest");
+                }
 
             }
         });

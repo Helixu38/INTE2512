@@ -31,7 +31,7 @@
             </Label>
             <TextField fx:id="tf_username" layoutX="138.0" layoutY="145.0" promptText="Username" />
             <PasswordField fx:id="pf_password" layoutX="138.0" layoutY="214.0" promptText="Password" />
-            <Button fx:id="button_signin" layoutX="143.0" layoutY="294.0" mnemonicParsing="false" onAction="#userLogin" text="Login">
+            <Button fx:id="button_signin" layoutX="143.0" layoutY="294.0" mnemonicParsing="false" text="Login">
                <font>
                   <Font name="Arial Rounded MT Bold" size="16.0" />
                </font></Button>
@@ -41,7 +41,7 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <Button fx:id="button_signup" layoutX="191.0" layoutY="345.0" mnemonicParsing="false" onAction="#userLogin" style="-fx-background-color: transperant;" text="Signup" textFill="#004dff" underline="true">
+            <Button fx:id="button_signup" layoutX="191.0" layoutY="345.0" mnemonicParsing="false" style="-fx-background-color: transperant;" text="Signup" textFill="#004dff" underline="true">
                <font>
                   <Font name="Arial Rounded MT Bold" size="16.0" />
                </font>

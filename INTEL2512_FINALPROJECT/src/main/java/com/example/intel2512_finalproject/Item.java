@@ -1,6 +1,6 @@
 package com.example.intel2512_finalproject;
 
-public class Item {
+public class Item implements java.io.Serializable {
     private String id;
     private String title;
     private String rentalType;
@@ -11,7 +11,9 @@ public class Item {
     private boolean rentalStatus;
 
 
-    public Item(String id, String title, String rentalType, String loanType, int numberCopies, double rentalFee, String genre , boolean rentalStatus) {
+
+
+    public Item (String id, String title, String rentalType, String loanType, int numberCopies, double rentalFee, String genre , boolean rentalStatus) {
         this.id = id;
         this.title = title;
         this.rentalType = rentalType;
@@ -99,7 +101,7 @@ public class Item {
     }
 
     @Override
-    public String toString() {
+    public  String toString() {
         return
                 id + '\t' +
                 title + '\t' +

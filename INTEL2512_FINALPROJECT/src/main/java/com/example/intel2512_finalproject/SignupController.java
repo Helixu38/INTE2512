@@ -43,21 +43,18 @@ public class SignupController implements Initializable {
             }
         });
 
-        button_signup.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(!tf_name.getText().trim().isEmpty() && !tf_address.getText().trim().isEmpty() && !tf_phoneNumber.getText().trim().isEmpty() && !tf_username.getText().trim().isEmpty() && !tf_password.getText().trim().isEmpty()){
-                    SystemUtils.signUpUser(event, tf_name.getText() , tf_address.getText() , tf_phoneNumber.getText() , tf_username.getText() , tf_password.getText());
+        button_signup.setOnAction(event -> {
+            if(!tf_name.getText().trim().isEmpty() && !tf_address.getText().trim().isEmpty() && !tf_phoneNumber.getText().trim().isEmpty() && !tf_username.getText().trim().isEmpty() && !tf_password.getText().trim().isEmpty()){
+                SystemUtils.signUpUser(event, tf_name.getText() , tf_address.getText() , tf_phoneNumber.getText() , tf_username.getText() , tf_password.getText());
+                SystemUtils.changeScene(event, "afterLogin.fxml", "Welcome !" , tf_username.getText() , tf_name.getText(), tf_address.getText(), tf_phoneNumber.getText(), "Guest");
 
-                }   else {
-                    System.out.print("Please fill in all information");
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setContentText("Please fill in all information to signup");
-                    alert.show();
-                }
+            }   else {
+                System.out.print("Please fill in all information");
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("Please fill in all information to signup");
+                alert.show();
             }
         });
-
 
     }
 }

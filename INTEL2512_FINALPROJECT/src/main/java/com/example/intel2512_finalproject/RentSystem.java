@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RentSystem {
 
@@ -13,14 +15,15 @@ public class RentSystem {
     private FileAccRW fileAcc;
     private FileItemRW fileItem;
     private int currentID;
+    private int currentItemID;
+    private Account accountFound;
 
     public RentSystem() {
         
         accountList = new ArrayList<>();
         itemList = new ArrayList<>();
-        itemList.add(new Item("I001-2001", "Medal of Honour", "Game", "1-week",3,3.99,"\t", false));
-        itemList.add(new Item("I002-1988", "White Castle", "Record", "1-week",3,0.99,"Comedy",false));
-        // filename = "database.txt";
+//        itemList.add(new Item("I001-2001", "Medal of Honour", "Game", "1-week",3,3.99,"\t", false));
+//        itemList.add(new Item("I002-1988", "White Castle", "Record", "1-week",3,0.99,"Comedy",false));
         fileAcc = new FileAccRW("customer.txt");
         fileItem = new FileItemRW("item.txt");
         // "I003-1992,Alpha Dog,Record,1-week,3,1.99,Action",
@@ -33,47 +36,148 @@ public class RentSystem {
     }
 
     void addUser(String name, String address, String phoneNumber, String username, String password) {
-        
-        // fileAcc.readAccList();
-        // accountList = fileAcc.getAccountList();
-        // for (Account acc: accountList) {
-        //     if (acc.getUsername().equals(username)) {
-        //         System.out.println("User with name " + username + " already exists");
-        //         return;
-        //     }
-        // }
+
+         // get the account list from the text file
+         fileAcc.readAccList();
+         accountList = fileAcc.getAccountList();
+
+         // check if user already exists in the local db
+         for (Account acc: accountList) {
+             if (acc.getUsername().equals(username)) {
+                 System.out.println("User with name " + username + " already exists");
+                 return;
+             }
+         }
 
         // Assuming all users start off as a guest account
         String newID = "C" +  String.format("%03d" , currentID);
         currentID++;
-        Account newUser = new Guest(newID, name, address, phoneNumber, new ArrayList<>(), username, password);
-        fileAcc.addNewAcc(newUser);
+        Guest newUser = new Guest(newID, name, address, phoneNumber, new ArrayList<>(), username, password);
+
+        // add user info to local db and then to text file
+        this.accountList.add(newUser);
+        fileAcc.addNewAcc(this.accountList);
     }
 
-    void loginUser(String username, String password) {
-//        this.fileAcc.searchUser
-    }
-//    void rent(Item requestedItem, Account user) {
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-//        String line;
-//        // for (Item item: itemList) {
-//        while((line = reader.readLine()) != null){
-//            Item requestedItem = lineToItem(line);
-//            if (requestedItem.id == item.id) {
-//                if (item.getNumberCopies > 0) {
-//                    item.borrowed();
-//                    user.borrowMovie(item);
-//                }
-//                break;
-//            }
-//        }
-//        reader.close();
-//
-//        // Write new rented entry into account database
-//    }
+    /***
+     * Add a new title to the system
+     * @param title
+     * @param loanType
+     * @param rentalType
+     * @param numberCopies
+     * @param rentalFee
+     * @param genre
+     * @param rentalStatus
+     */
+    void addItem(String title , String loanType , String rentalType , String numberCopies , String rentalFee ,
+                 String genre, String rentalStatus ) {
 
-    void returnItem(Item returnedObject, Account user) {
-        // find that user in the account database, read info out into a object
+        // get the item list from the text file
+        fileItem.readItemList();
+        itemList = fileItem.getItemList();
+
+        // find the largest id in the itemList and continue our id from that number
+        for (Item itx : itemList) {
+            // if we have id: I012-2022 for example, we take "012" and find the int value of that substring
+            int largestID;
+            largestID = Integer.parseInt(itx.getId().substring(1, 4));
+            if (largestID > currentItemID) {
+                currentItemID = largestID;
+            }
+
+            // if title already exists, increment the numberCopies count
+            if (title.equals(itx.getTitle())) {
+                itx.returned();
+                fileItem.addItem(this.itemList);
+                return;
+            }
+        }
+        currentItemID++;
+
+        // generate new id for the new record
+        String newID = "I" +  String.format("%03d" , currentItemID) + "-2022";
+        currentItemID++;
+
+        // if new item gets added
+        Item newItem = new Item(newID, title, rentalType, loanType, Integer.parseInt(numberCopies), Double.parseDouble(rentalFee),
+                genre, Boolean.parseBoolean(rentalStatus));
+
+        // add item info to local db and then to text file
+        this.itemList.add(newItem);
+        fileItem.addItem(this.itemList);
+    }
+
+    /***
+     * Login with information supplied in the UI
+     * @param username
+     * @param password
+     * @return
+     */
+    Account loginUser(String username, String password) {
+         fileAcc.readAccList();
+         accountList = fileAcc.getAccountList();
+         for (Account acc: accountList) {
+             if (acc.getUsername().equals(username)) {
+                 System.out.println("Found user with name " + username);
+                 accountFound = acc;
+                 break;
+             }
+         }
+
+         if (accountFound == null) {
+             // account with the given username is not found
+             System.out.println("Cannot find user with name " + username);
+         }
+         else {
+             // the account with the matching username is found in the database
+             if (!password.equals(accountFound.getPassword())) {
+                 System.out.println("password for user " + username + " is incorrect!");
+                 return null;
+             }
+         }
+        return accountFound;
+    }
+
+    /***
+     * Rent an item from entries listed from search/lookup
+     * @param itemFound
+     */
+    void rent(Item itemFound) {
+
+        for (Item itx : itemList) {
+            if (itx.getTitle().equals(itemFound.getTitle())) {
+                if (itx.getNumberCopies() > 0) {
+
+
+                    // asserting that we are logged in and the current acc exists
+                    assert accountFound != null;
+
+                    // Check if item can be borrowed by account, update account rentalList
+                    if (accountFound.borrowMovie(itx)) {
+                        // update local item db
+                        itx.borrowed();
+                        break;
+                    } else {
+                        System.out.println("Renting unsuccessful due to guest account restrictions");
+                        return;
+                    }
+                }
+            }
+        }
+
+        // add item info to text file
+        fileItem.addItem(this.itemList);
+
+        // update account database as well
+        fileAcc.addNewAcc(this.accountList);
+
+    }
+
+    /***
+     * Return an item from an entry listed in the search table
+     * @param returnedObject
+     */
+    void returnItem(Item returnedObject) {
 
         // return item first
 
@@ -81,15 +185,10 @@ public class RentSystem {
         checkPromote(user);
     }
 
-//    Item lineToItem(String line) {
-//        // BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
-//        // String line;
-//        // while((line = reader.readLine()) != null){
-//        String[] newItem = line.split(",", 0);
-//        Item current = new Item(newItem[0])
-//        // reader.close();
-//    }
-
+    /***
+     * Check if user is eligible for an account promotion
+     * @param user
+     */
     void checkPromote(Account user) {
         // Check returned count after user makes a return, read the account database and find the old entry, erase it and replace with
         // new entry of the promoted user, no fields need to change aside from the customerType
@@ -120,6 +219,7 @@ public class RentSystem {
             System.out.println(itx.toString());
         }
     }
+
     void displayCustomer(){
         Collections.sort(accountList, new Comparator<Account>() {
             public int compare(Account a, Account b)
@@ -145,7 +245,41 @@ public class RentSystem {
         }
     }
 
-    void search(String name) {
+    public Item search(String id , String title , String loanType , String rentalType , String numberCopies , String rentalFee , String rentalStatus) {
 
+        // get the list of items from the database
+        this.fileItem.readItemList();
+        this.itemList = this.fileItem.getItemList();
+
+        for (Item itx : itemList) {
+            // loop through the list of all items and see if there exists item that matches all search patterns
+            if (
+                    regexHelper(id, itx.getId()) &&
+                    regexHelper(title, itx.getTitle()) &&
+                    regexHelper(loanType, itx.getLoanType()) &&
+                    regexHelper(rentalType, itx.getRentalType()) &&
+                    regexHelper(numberCopies, String.valueOf(itx.getNumberCopies())) &&
+                    regexHelper(rentalFee, String.valueOf(itx.getRentalFee())) &&
+                    regexHelper(rentalStatus, String.valueOf(itx.getRentalStatus()))) {
+                return itx;
+            }
+        }
+
+        return null;
+    }
+
+    /***
+     * A helper function for the search method that checks entry against the regex pattern
+     * @param information
+     * @param result
+     * @return whether the result fits the pattern described by the information inputted
+     */
+    public static boolean regexHelper(String information, String result) {
+        if (result.equals("")) {
+            return true;
+        }
+        Pattern pattern = Pattern.compile(information, Pattern.CASE_INSENSITIVE);
+        Matcher matcherID = pattern.matcher(result);
+        return matcherID.find();
     }
 }
